@@ -10,19 +10,19 @@ app.get('/:ID', function(req, res) {
   console.log('got this: '+req.params.ID);
   
   var response = undefined;
-  var timestamp = Date.parse(req.params.ID.toString());
+  var timestamp = Date.parse(req.params.ID);
   //console.log(timestamp);
-  if (isNaN(timestamp) == false)
-  {
-    console.log("It's a date! " + timestamp);
-    var d = new Date(timestamp);
-    response = { unix: d.getTime(), natural: d.toDateString()};
-  }
-  else if (isNaN(parseInt(req.params.ID)) == false)
+  if (isNaN(parseInt(req.params.ID)) == false)
   {
     console.log("It's a date! " + req.params.ID);
     var u = new Date(parseInt(req.params.ID));
     response = { unix: u.getTime(), natural: u.toDateString()};
+  }
+  else if (isNaN(timestamp) == false)
+  {
+    console.log("It's a date! " + timestamp);
+    var d = new Date(timestamp);
+    response = { unix: d.getTime(), natural: d.toDateString()};
   }
   else
   {
