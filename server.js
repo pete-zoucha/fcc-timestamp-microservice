@@ -9,7 +9,27 @@ var server = http.createServer(app);
 app.get('/:ID', function(req, res) {
   console.log('got this: '+req.params.ID);
   
-  res.end();
+  var response = undefined;
+  var timestamp = Date.parse(req.params.ID.toString());
+  //console.log(timestamp);
+  if (isNaN(timestamp) == false)
+  {
+    console.log("It's a date! " + timestamp);
+    var d = new Date(timestamp);
+    response = { unix: d.getTime(), natural: d.toDateString()};
+  }
+  else if (isNaN(parseInt(req.params.ID)) == false)
+  {
+    console.log("It's a date! " + req.params.ID);
+    var u = new Date(parseInt(req.params.ID));
+    response = { unix: u.getTime(), natural: u.toDateString()};
+  }
+  else
+  {
+    console.log("Not a date!");
+    response = { unix: null, natural: null };
+  }
+  res.end(JSON.stringify(response));
 });
 
 app.use(express.static(path.resolve(__dirname, 'client')));
